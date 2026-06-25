@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/hand.png" alt="AI Handy Writer mascot" width="420">
+</p>
+
 # AI Handy Writer
 
 AI Handy Writer is a terminal-native AI writing workflow for fast, polished, clipboard-ready text.
