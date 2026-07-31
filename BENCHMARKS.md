@@ -24,9 +24,9 @@ The inputs were deliberately matched by character count:
 
 For translation, Pi with GPT-5.6 Luna and Thinking disabled produced the fastest raw mean at 10.00 seconds. It also changed the meaning of a negation in two of three dedicated control runs.
 
-For correction, Codex with GPT-5.6 Luna, Reasoning `none`, and Fast mode produced the fastest mean at 8.86 seconds. Codex GPT-5.5 with Reasoning `none` and Fast mode produced the fastest median at 9.84 seconds.
+For correction, Pi with GPT-5.6 Luna and Thinking `minimal` produced both the fastest mean at 10.39 seconds and the fastest median at 10.36 seconds.
 
-Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode remains the default. It was the fastest reliable translation mode, preserved the intended meaning in all six evaluated translations, and corrected every seeded error in the new correction benchmark. The correction benchmark alone does not justify changing the default because its Pi runs were blocked by authentication and three runs per mode are sensitive to transient server load.
+Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode remains the default. It was the fastest reliable translation mode, preserved the intended meaning in all six evaluated translations, and corrected every seeded error in the correction benchmark. Pi Luna `minimal` won the correction test, but it produced one meaning error in the six-run translation quality sample.
 
 ## Translation Performance
 
@@ -82,18 +82,21 @@ The six evaluations combine three main-test translations with three negation-con
 
 | Rank | Harness | Model | Reasoning | Tier | Mean | Median | Range |
 | ---: | --- | --- | --- | --- | ---: | ---: | ---: |
-| 1 | Codex | GPT-5.6 Luna | `none` | Fast | 8.86 s | 10.32 s | 5.13-11.13 s |
-| 2 | Codex | GPT-5.5 | `none` | Fast | 10.02 s | 9.84 s | 7.26-12.98 s |
-| 3 | Codex | GPT-5.6 Luna | `none` | Standard | 10.32 s | 12.59 s | 5.15-13.23 s |
-| 4 | Codex | GPT-5.5 | `none` | Standard | 11.89 s | 12.40 s | 10.77-12.50 s |
-| 5 | Codex | GPT-5.5 | `low` | Fast | 13.36 s | 12.01 s | 11.89-16.19 s |
-| 6 | Codex | GPT-5.6 Luna | `low` | Fast | 13.78 s | 13.70 s | 12.98-14.67 s |
-| 7 | Codex | GPT-5.6 Luna | `low` | Standard | 14.26 s | 14.45 s | 12.71-15.62 s |
-| 8 | Codex | GPT-5.5 | `low` | Standard | 15.44 s | 15.12 s | 15.09-16.10 s |
+| 1 | Pi | GPT-5.6 Luna | `minimal` | Standard | 10.39 s | 10.36 s | 10.09-10.73 s |
+| 2 | Pi | GPT-5.5 | `off` | Standard | 10.50 s | 10.68 s | 9.90-10.93 s |
+| 3 | Pi | GPT-5.5 | `low` | Standard | 11.42 s | 12.02 s | 10.20-12.04 s |
+| 4 | Pi | GPT-5.6 Luna | `off` | Standard | 11.50 s | 10.48 s | 10.37-13.63 s |
+| 5 | Codex | GPT-5.6 Luna | `none` | Fast | 12.28 s | 11.51 s | 11.49-13.84 s |
+| 6 | Pi | GPT-5.6 Luna | `low` | Standard | 12.48 s | 13.32 s | 10.16-13.96 s |
+| 7 | Codex | GPT-5.5 | `none` | Fast | 12.83 s | 11.09 s | 10.75-16.64 s |
+| 8 | Codex | GPT-5.5 | `none` | Standard | 12.91 s | 13.15 s | 11.73-13.85 s |
+| 9 | Codex | GPT-5.6 Luna | `none` | Standard | 13.40 s | 13.24 s | 12.67-14.29 s |
+| 10 | Codex | GPT-5.5 | `low` | Fast | 14.51 s | 15.25 s | 11.52-16.77 s |
+| 11 | Codex | GPT-5.6 Luna | `low` | Standard | 14.97 s | 14.24 s | 14.07-16.60 s |
+| 12 | Codex | GPT-5.5 | `low` | Standard | 15.65 s | 14.98 s | 14.09-17.88 s |
+| 13 | Codex | GPT-5.6 Luna | `low` | Fast | 18.72 s | 12.51 s | 12.24-31.40 s |
 
-All 24 successful Codex runs corrected the seeded spelling, grammar, and agreement errors while preserving the intended meaning. Minor stylistic differences included `treetop` versus `tree-top` and different pronoun choices.
-
-The 15 attempted Pi runs are retained in the raw data with status `1`. They were rejected before model inference because the local Pi OAuth token had been invalidated. Their short failure durations are not model-performance measurements and are excluded from the timing table.
+All 39 correction runs exited with status `0`. Every output corrected the seeded spelling, grammar, and agreement errors while preserving the intended meaning. Minor stylistic differences included `treetop` versus `tree-top` and different pronoun choices.
 
 The complete raw data is stored in [`benchmarks/2026-07-31-english-correction.tsv`](benchmarks/2026-07-31-english-correction.tsv).
 
@@ -107,9 +110,9 @@ en: Tree top walks are one of the most interessting ways to explore a forest fro
 
 ### Translation versus Correction
 
-The correction task was not uniformly faster than translation. Across the four Codex configurations without Reasoning, correction averaged 10.27 seconds. The four Codex configurations with Reasoning `low` averaged 14.21 seconds, making the no-Reasoning group 3.94 seconds faster in this sample.
+The correction task was not uniformly faster than translation. Across the four Codex configurations without Reasoning, correction averaged 12.85 seconds. The four Codex configurations with Reasoning `low` averaged 15.96 seconds, making the no-Reasoning group 3.11 seconds faster in this sample.
 
-Fast mode beat its matching Standard configuration in all four correction comparisons. However, the default Codex Luna Fast `low` mode averaged 13.78 seconds for correction versus 11.15 seconds for translation. This illustrates why task type should not be treated as the only latency driver: server load, startup variance, model, Reasoning, and service tier also affect the result.
+Fast mode beat its matching Standard configuration in three of four correction comparisons. The default Codex Luna Fast `low` mode averaged 18.72 seconds for correction versus 11.15 seconds for translation, but its correction median was 12.51 seconds. A single 31.40-second outlier substantially increased its mean. This illustrates why task type should not be treated as the only latency driver and why median, range, server load, model, Reasoning, and service tier should be evaluated together.
 
 ## Unsupported Model Name
 

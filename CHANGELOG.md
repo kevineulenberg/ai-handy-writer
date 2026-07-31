@@ -6,13 +6,14 @@
 
 - Separate correction and polishing benchmark for the Writer's second primary use case.
 - Character-matched English correction fixture with deliberate spelling and grammar errors.
-- Raw timing and output data for 24 successful Codex runs and 15 Pi authentication failures.
+- Raw timing and output data for 39 successful Codex and Pi correction runs.
 - Reproducible `translation` and `correction` scenarios in `scripts/benchmark.zsh`.
 
 ### Changed
 
 - Reorganized the benchmark documentation into distinct translation and correction performance sections.
 - Expanded the README and installation guide with both benchmark scenarios.
+- Replaced the incomplete correction dataset after renewing authentication and rerunning the complete 39-run matrix.
 - Kept Codex GPT-5.6 Luna with Reasoning `low` and Fast mode as the default because the translation quality controls remain the strongest reliability signal.
 
 ## 2026-07-31 - English Repository and Runtime

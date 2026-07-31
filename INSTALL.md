@@ -157,4 +157,4 @@ Run new matrices with three repetitions per mode:
 ./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-correction.tsv correction
 ```
 
-Pi Luna `off` produced the fastest raw result. Because it repeatedly changed the meaning of a negation control sentence, Codex Luna Fast `low` remains the fastest reliable default.
+Pi Luna `off` produced the fastest raw translation result, while Pi Luna `minimal` won the correction benchmark. Because both Pi modes produced at least one meaning error in the translation quality sample, Codex Luna Fast `low` remains the fastest reliable default.

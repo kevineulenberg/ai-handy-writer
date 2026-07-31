@@ -18,7 +18,7 @@ The fastest raw result came from Pi with GPT-5.6 Luna and Thinking `off`, averag
 
 The fastest reliable mode was Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode. It averaged 11.15 seconds and produced no meaning errors across six evaluated translations, so it remains the default.
 
-The separate correction benchmark uses a similarly sized English input with deliberate spelling and grammar errors. Codex GPT-5.6 Luna with Reasoning `none` and Fast mode produced the fastest correction mean at 8.86 seconds. All 24 successful Codex correction runs fixed the seeded errors; the 15 Pi attempts were excluded because an invalidated local OAuth token stopped them before model inference.
+The separate correction benchmark uses a similarly sized English input with deliberate spelling and grammar errors. Pi GPT-5.6 Luna with Thinking `minimal` produced the fastest correction mean at 10.39 seconds and the fastest median at 10.36 seconds. All 39 correction runs completed successfully and fixed the seeded errors.
 
 ## Default Configuration
 
