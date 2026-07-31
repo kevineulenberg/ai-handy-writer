@@ -1,0 +1,28 @@
+# Dedicated Codex profile for AI Handy Writer.
+# The installer replaces the placeholder with the absolute installed SKILL.md path.
+
+model = "gpt-5.6-luna"
+model_reasoning_effort = "low"
+model_instructions_file = "__AI_HANDY_WRITER_CODEX_SKILL_FILE__"
+notify = ["__AI_HANDY_WRITER_CODEX_NOTIFY__"]
+service_tier = "fast"
+sandbox_mode = "read-only"
+approval_policy = "never"
+web_search = "disabled"
+personality = "none"
+
+[features]
+fast_mode = true
+apps = false
+plugins = false
+browser_use = false
+computer_use = false
+image_generation = false
+multi_agent = false
+hooks = false
+
+[agents]
+enabled = false
+
+[apps._default]
+enabled = false
