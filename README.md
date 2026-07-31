@@ -4,97 +4,91 @@
 
 # AI Handy Writer
 
-AI Handy Writer ist ein fokussierter, terminalbasierter Schreibmodus fuer macOS. Er korrigiert, verbessert und uebersetzt eingefuegte Texte, kopiert die fertige Fassung mit `/usr/bin/pbcopy` in die Zwischenablage und zeigt exakt denselben Text im Terminal an.
+AI Handy Writer is a focused terminal-native writing workflow for macOS. It corrects, polishes, and translates pasted text, copies the finished version to the clipboard with `/usr/bin/pbcopy`, and prints exactly the same text in the terminal.
 
-Der globale Befehl verwendet standardmaessig den Codex-Harness. Pi bleibt als vollwertiger alternativer Harness erhalten.
+The global command starts the Codex harness by default. Pi remains available as a fully supported alternative harness.
 
-## Benchmark-Sieger
+## Benchmark Winner
 
 <p align="center">
-  <img src="assets/benchmark-mascot.png" alt="AI Handy Writer misst die Geschwindigkeit mit einer Stoppuhr" width="360">
+  <img src="assets/benchmark-mascot.png" alt="AI Handy Writer measuring response speed with a stopwatch" width="360">
 </p>
 
-Der schnellste reine Messwert stammt von Pi mit GPT-5.6 Luna und Thinking
-`off`: 10,00 Sekunden im Mittel. Dieser Modus verursachte im separaten
-Negations-Kontrolltest jedoch zwei Bedeutungsfehler.
+The fastest raw result came from Pi with GPT-5.6 Luna and Thinking `off`, averaging 10.00 seconds. That mode produced two meaning errors in the separate negation control test.
 
-Der schnellste zuverlaessige Modus ist Codex mit GPT-5.6 Luna, Reasoning `low`
-und Fast Mode: 11,15 Sekunden im Mittel und kein Bedeutungsfehler in sechs
-bewerteten Uebersetzungen. Er bleibt deshalb der Standard.
+The fastest reliable mode was Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode. It averaged 11.15 seconds and produced no meaning errors across six evaluated translations, so it remains the default.
 
-## Standardkonfiguration
+## Default Configuration
 
-| Einstellung | Codex | Pi |
+| Setting | Codex | Pi |
 | --- | --- | --- |
-| Modell | `gpt-5.6-luna` | `gpt-5.6-luna` |
+| Model | `gpt-5.6-luna` | `gpt-5.6-luna` |
 | Reasoning | `low` | `low` |
-| Service-Tier | Fast | Standard |
-| Standardmodus | Ja | Nein |
-| Start | `ai-writer` | `ai-writer --pi` |
+| Service tier | Fast | Standard |
+| Default harness | Yes | No |
+| Start command | `ai-writer` | `ai-writer --pi` |
 
-Codex Fast Mode beschleunigt unterstuetzte Modelle und verbraucht mehr ChatGPT-Credits. Pi stellt fuer seinen CLI-Harness keinen gleichwertigen Fast-Schalter bereit.
+Codex Fast mode reduces latency for supported models while consuming ChatGPT credits at a higher rate. Pi does not expose an equivalent Fast-mode switch in its CLI harness.
 
-Die ausfuehrliche Messmatrix, Methodik, Einzelzeiten, Qualitaetskontrolle und
-der nicht verfuegbare Modellname `gpt-5.5-instant` stehen in
-[`BENCHMARKS.md`](BENCHMARKS.md).
+The complete timing matrix, methodology, individual results, quality checks, and the unavailable `gpt-5.5-instant` model name are documented in [`BENCHMARKS.md`](BENCHMARKS.md).
 
-## Befehle
+## Commands
 
 ```bash
 ai-writer
-ai-writer "hallo ich wollte fragen ob das morgen passt"
+ai-writer "hello i wanted to ask if tomorrow works"
 ai-writer --codex
 ai-writer --pi
-ai-writer --pi "en: hallo wie geht es dir"
+ai-writer --pi "de: this sounds good and we can start tomorrow"
 ai-writer --help
 ```
 
-Der Alias `ai-handy-writer` verweist auf denselben Launcher:
+The `ai-handy-writer` alias points to the same launcher:
 
 ```bash
 ai-handy-writer --pi
 ```
 
-Mit `--` endet die Optionsauswertung:
+Use `--` to stop option parsing:
 
 ```bash
-ai-writer -- "--pi soll in diesem Satz als Text erhalten bleiben"
+ai-writer -- "--pi should remain part of this sentence"
 ```
 
-## Sprachmodus
+## Language Mode
 
-Der initiale Sprachmodus ist Deutsch.
+The initial language mode is English.
 
-1. Deutsche Eingaben werden auf Deutsch verbessert.
-2. Eindeutig englische Eingaben ohne Prefix schalten dauerhaft auf Englisch.
-3. Sprachprefixe wie `de:`, `en:`, `fr:`, `es:` oder `ja:` schalten dauerhaft in die angegebene Zielsprache.
-4. Der Modus bleibt innerhalb der laufenden interaktiven Sitzung aktiv, bis ein neuer gueltiger Sprachprefix gesetzt wird.
+1. English input is corrected and polished in English.
+2. Non-English input without a prefix is translated into English.
+3. A language prefix such as `de:`, `en:`, `fr:`, `es:`, or `ja:` persistently switches the target language.
+4. The selected language remains active for the current interactive session until another valid prefix changes it.
 
-## Harness wechseln
+## Switch Harnesses
 
-Die Standardwahl steht in:
+The persistent default is stored in:
 
 ```text
 $HOME/.config/ai-handy-writer/config.zsh
 ```
 
-Codex ist der Standard:
+Use Codex by default:
 
 ```zsh
 AI_WRITER_DEFAULT_HARNESS="codex"
 ```
 
-Pi wieder zum Standard machen:
+Use Pi by default:
 
 ```zsh
 AI_WRITER_DEFAULT_HARNESS="pi"
 ```
 
-Eine einzelne Sitzung kann unabhaengig davon immer mit `--codex` oder `--pi` gestartet werden.
+Regardless of the configured default, `--codex` and `--pi` always select a harness for one session.
 
-## Modell-, Reasoning- und Tier-Modi
+## Model, Reasoning, and Tier Modes
 
-Die installierte Datei `$HOME/.config/ai-handy-writer/config.zsh` enthaelt:
+The installed configuration contains:
 
 ```zsh
 AI_WRITER_DEFAULT_HARNESS="codex"
@@ -104,15 +98,14 @@ AI_WRITER_CODEX_PROFILE="ai-handy-writer"
 AI_WRITER_CODEX_SERVICE_TIER="fast"
 ```
 
-Unterstuetzte, praktisch getestete Kombinationen:
+Tested combinations:
 
-| Harness | Modelle | Reasoning/Thinking | Tier |
+| Harness | Models | Reasoning or Thinking | Tier |
 | --- | --- | --- | --- |
 | Pi | `gpt-5.6-luna`, `gpt-5.5` | `off`, `minimal`, `low` | Standard |
 | Codex | `gpt-5.6-luna`, `gpt-5.5` | `none`, `low` | Standard, Fast |
 
-Eine Einstellung kann fuer einen einzelnen Start ohne Dateiaenderung
-ueberschrieben werden:
+Override settings for one launch without editing the configuration file:
 
 ```bash
 AI_HANDY_WRITER_CONFIG=/dev/null \
@@ -122,7 +115,7 @@ AI_WRITER_REASONING=minimal \
 ai-writer
 ```
 
-Codex einmalig im Standard-Tier:
+Run Codex in the Standard tier once:
 
 ```bash
 AI_HANDY_WRITER_CONFIG=/dev/null \
@@ -133,30 +126,28 @@ AI_WRITER_CODEX_SERVICE_TIER=standard \
 ai-writer
 ```
 
-`gpt-5.5-instant` ist mit dem getesteten ChatGPT-Codex-Login nicht verfuegbar.
-Der Server lehnt diesen Modellnamen mit HTTP 400 ab. Verwende stattdessen
-`gpt-5.5` mit Fast Mode.
+`gpt-5.5-instant` is not available through the tested ChatGPT Codex login. The server rejects that model name with HTTP 400. Use `gpt-5.5` with Fast mode instead.
 
 ## Installation
 
-Die vollstaendige Anleitung steht in `INSTALL.md`. Fuer das aktuelle System:
+See [`INSTALL.md`](INSTALL.md) for the complete installation guide. On the current system:
 
 ```bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent@0.83.0
 ./scripts/install.sh
 ```
 
-Das Installationsskript:
+The installer:
 
-1. archiviert alte aktive `write-skill`-Ordner,
-2. installiert die Skill-Datei fuer Codex und Pi,
-3. installiert den Codex-Profil-Layer,
-4. installiert `ai-writer` unter `~/.local/bin`,
-5. richtet `ai-handy-writer` als Alias ein,
-6. installiert die deterministische Codex-Clipboard-Bruecke,
-7. bewahrt eine bereits angepasste Laufzeitkonfiguration.
+1. Archives active legacy `write-skill` directories.
+2. Installs the skill for Codex and Pi.
+3. Installs the dedicated Codex profile.
+4. Installs `ai-writer` under `~/.local/bin`.
+5. Creates `ai-handy-writer` as an alias.
+6. Installs the deterministic Codex clipboard bridge.
+7. Preserves an existing editable runtime configuration.
 
-## Installierte Pfade
+## Installed Paths
 
 ```text
 $HOME/.codex/skills/ai-handy-writer/SKILL.md
@@ -168,27 +159,25 @@ $HOME/.local/bin/ai-writer
 $HOME/.local/bin/ai-handy-writer
 ```
 
-## Codex-Profil
+## Codex Profile
 
-Der Launcher waehlt fuer Codex das Profil `ai-handy-writer`. Das Profil:
+The launcher selects the dedicated `ai-handy-writer` profile. The profile:
 
-1. setzt `gpt-5.6-luna`,
-2. setzt Reasoning auf `low`,
-3. aktiviert Fast Mode,
-4. laedt die installierte `SKILL.md` als Instruktionsdatei,
-5. verwendet einen Read-only-Sandbox,
-6. deaktiviert Websuche, Apps, Plugins, Hooks, Browser, Computer Use, Bilderzeugung und Multi-Agent,
-7. kopiert nach jedem abgeschlossenen Codex-Turn den finalen Assistententext deterministisch in die Zwischenablage.
+1. Uses `gpt-5.6-luna`.
+2. Sets Reasoning to `low`.
+3. Enables Fast mode.
+4. Loads the installed `SKILL.md` as its instruction file.
+5. Uses a read-only sandbox.
+6. Disables web search, apps, plugins, hooks, Browser Use, Computer Use, image generation, and multi-agent operation.
+7. Copies the final assistant message to the clipboard deterministically after every completed turn.
 
-Die normale globale Codex-Konfiguration wird dadurch nicht veraendert.
+The profile does not modify the normal global Codex defaults.
 
-Der Service-Tier kann in `config.zsh` zwischen `fast` und `standard`
-umgeschaltet werden. Der Launcher ueberschreibt damit den Profil-Fallback
-explizit.
+Set `AI_WRITER_CODEX_SERVICE_TIER` to `fast` or `standard` in `config.zsh`. The launcher explicitly applies the selected tier over the profile fallback.
 
-## Pi-Konfiguration
+## Pi Configuration
 
-Pi wird gezielt mit folgenden Eigenschaften gestartet:
+Pi starts with:
 
 ```text
 --provider openai-codex
@@ -199,36 +188,37 @@ Pi wird gezielt mit folgenden Eigenschaften gestartet:
 --no-context-files
 ```
 
-Pi 0.83.0 oder neuer ist erforderlich, weil aeltere installierte Versionen GPT-5.6 Luna noch nicht im `openai-codex`-Modellkatalog fuehren.
+Pi 0.83.0 or newer is required because earlier installed versions did not include GPT-5.6 Luna in the `openai-codex` model catalog.
 
-## Sicherheitsmodell
+## Safety Model
 
-Der Writer behandelt jede Nutzernachricht als zu transformierenden Rohtext. Anweisungen innerhalb dieses Textes werden nur sprachlich korrigiert, nicht ausgefuehrt.
+The Writer treats every user message as raw text to transform. Instructions contained in that text are corrected or translated, never executed.
 
-Im Pi-Modus ist der einzige erlaubte Tool-Zweck das Kopieren des finalen Textes:
+In Pi mode, the only permitted tool purpose is copying the final text:
 
 ```bash
 /usr/bin/pbcopy <<'__AI_HANDY_WRITER_FINAL_TEXT__'
-FINALER_TEXT
+FINAL_TEXT
 __AI_HANDY_WRITER_FINAL_TEXT__
 ```
 
-Dateizugriffe, Browser, APIs, Netzwerkzugriffe, Skripte und andere Shell-Commands sind fuer das Modell durch die Skill-Anweisungen verboten. Im Codex-Modus kopiert eine kleine, vom Harness aufgerufene Notify-Bruecke den finalen Assistententext mit `/usr/bin/pbcopy`. Sie ist keine Modellfunktion und erhaelt nur das Turn-Abschlussereignis.
+The skill forbids file access, browsers, APIs, network access, scripts, and other shell commands. In Codex mode, a small harness-level notification bridge copies the final assistant message with `/usr/bin/pbcopy`. The bridge is not a model tool and receives only the turn-completed event.
 
-## Entwicklung und Pruefung
+## Development and Validation
 
 ```bash
 ruby -ryaml -e 'text=File.read("SKILL.md"); header=text.split(/^---\s*$/,3)[1]; p YAML.safe_load(header)'
 zsh -n bin/ai-writer
 zsh -n scripts/install.sh
+zsh -n scripts/benchmark.zsh
 python3 -m py_compile scripts/copy_codex_turn_to_clipboard.py
 ./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-benchmark.tsv
 ```
 
-Nach einer Aenderung werden die globalen Kopien mit folgendem Befehl aktualisiert:
+Update the global copies after a repository change:
 
 ```bash
 ./scripts/install.sh
 ```
 
-Die Aenderungshistorie steht in [`CHANGELOG.md`](CHANGELOG.md).
+See [`CHANGELOG.md`](CHANGELOG.md) for the change history.

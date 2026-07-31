@@ -1,35 +1,39 @@
 # Changelog
 
-## 2026-07-31
+## 2026-07-31 - English Repository and Runtime
 
-### Hinzugefuegt
+### Changed
 
-- Dedizierter Codex-Harness mit eigenem `ai-handy-writer`-Profil.
-- Umschaltung zwischen Codex und Pi mit `--codex` und `--pi`.
-- Gemeinsame Modell- und Reasoning-Konfiguration fuer beide Harnesses.
-- Konfigurierbarer Codex-Service-Tier `fast` oder `standard`.
-- Unterstuetzung fuer GPT-5.6 Luna und GPT-5.5 in den dokumentierten Modi.
-- Reproduzierbares Benchmark-Skript mit 13 Harness-, Modell-, Reasoning- und
-  Tier-Kombinationen.
-- Vollstaendige Benchmark-Dokumentation und TSV-Rohdaten.
-- Neues Benchmark-Maskottchen mit Stoppuhr und Zielflagge.
-- Deterministische Codex-Clipboard-Bruecke ueber das Turn-Abschlussereignis.
-- Installationsskript fuer Skill, Profil, Launcher, Konfiguration und Backups.
+- Translated all repository documentation, skill instructions, runtime prompts, and benchmark analysis into English.
+- Changed the initial persistent Writer language from German to English.
+- Non-English input without a language prefix is now translated into English.
+- Preserved explicit language-prefix switching, multilingual examples, the German benchmark fixture, and the published benchmark data.
+- Kept Codex GPT-5.6 Luna with Reasoning `low` and Fast mode as the default.
 
-### Geaendert
+## 2026-07-31 - Codex Modes and Benchmarks
 
-- Der initiale Sprachmodus ist Deutsch; eindeutig englischer Text schaltet
-  weiterhin automatisch und dauerhaft auf Englisch.
-- Beide Harnesses verwenden standardmaessig GPT-5.6 Luna mit Reasoning `low`.
-- Codex verwendet Fast Mode, Pi den Standard-Tier.
-- Codex Luna Fast `low` bleibt nach Geschwindigkeits- und Qualitaetsvergleich
-  der Standardmodus.
-- Pi wurde fuer GPT-5.6-Luna-Unterstuetzung auf Version 0.83.0 aktualisiert.
-- Der globale Befehl ist jetzt ein installierter Launcher statt einer
-  Shell-Funktion.
+### Added
 
-### Entfernt
+- Dedicated Codex harness with its own `ai-handy-writer` profile.
+- Harness selection through `--codex` and `--pi`.
+- Shared model and reasoning configuration for both harnesses.
+- Configurable Codex service tier with `fast` and `standard`.
+- Tested GPT-5.6 Luna and GPT-5.5 modes.
+- Reproducible benchmark script covering 13 harness, model, reasoning, and tier combinations.
+- Complete benchmark documentation and raw TSV data.
+- Benchmark mascot with a stopwatch and finish flag.
+- Deterministic Codex clipboard bridge using the turn-completed notification.
+- Installer for the skill, profile, launcher, configuration, and legacy backups.
 
-- Alte aktive `write-skill`-Installationen; sie werden beim Installieren
-  zeitgestempelt archiviert.
-- Das nicht mehr benoetigte generische Clipboard-Hilfsskript.
+### Changed
+
+- Both harnesses use GPT-5.6 Luna with Reasoning `low` by default.
+- Codex uses Fast mode while Pi uses the Standard tier.
+- Codex Luna Fast `low` remains the default after the speed and quality comparison.
+- Updated Pi to version 0.83.0 for GPT-5.6 Luna support.
+- Replaced the former shell function with an installed global launcher.
+
+### Removed
+
+- Active legacy `write-skill` installations. The installer archives them with a timestamp.
+- The obsolete generic clipboard helper script.

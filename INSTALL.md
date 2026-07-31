@@ -1,16 +1,16 @@
-# AI Handy Writer installieren
+# Install AI Handy Writer
 
-Diese Anleitung installiert AI Handy Writer fuer Codex und Pi. Codex ist danach der Standard-Harness. Pi bleibt ueber `--pi` erreichbar.
+This guide installs AI Handy Writer for Codex and Pi. Codex becomes the default harness, while Pi remains available through `--pi`.
 
-## Voraussetzungen
+## Requirements
 
-1. macOS mit `/usr/bin/pbcopy`
-2. Node.js und npm
-3. Codex CLI mit ChatGPT-Login
-4. Pi Coding Agent mit OpenAI-Codex-Login
-5. `~/.local/bin` im `PATH`
+1. macOS with `/usr/bin/pbcopy`
+2. Node.js and npm
+3. Codex CLI with a ChatGPT login
+4. Pi Coding Agent with an OpenAI Codex login
+5. `~/.local/bin` in `PATH`
 
-Versionen und Login pruefen:
+Check the installed versions and login state:
 
 ```bash
 codex --version
@@ -18,9 +18,9 @@ codex login status
 pi --version
 ```
 
-## Pi aktualisieren
+## Update Pi
 
-GPT-5.6 Luna wird im Pi-Modellkatalog ab der hier getesteten Version 0.83.0 gefuehrt:
+The tested Pi release that includes GPT-5.6 Luna in its model catalog is 0.83.0:
 
 ```bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent@0.83.0
@@ -28,16 +28,16 @@ pi --version
 pi --list-models | grep 'gpt-5.6-luna'
 ```
 
-## Installieren
+## Install
 
-Im Repository:
+From the repository:
 
 ```bash
-chmod +x bin/ai-writer scripts/install.sh
+chmod +x bin/ai-writer scripts/install.sh scripts/benchmark.zsh
 ./scripts/install.sh
 ```
 
-Das Skript installiert:
+The installer creates or updates:
 
 ```text
 $HOME/.codex/skills/ai-handy-writer/SKILL.md
@@ -49,77 +49,79 @@ $HOME/.local/bin/ai-writer
 $HOME/.local/bin/ai-handy-writer
 ```
 
-Vorhandene alte Verzeichnisse unter `~/.codex/skills/write-skill` und `~/.pi/agent/skills/write-skill` werden mit Zeitstempel hier archiviert:
+Active legacy directories at `~/.codex/skills/write-skill` and `~/.pi/agent/skills/write-skill` are archived with a timestamp under:
 
 ```text
 $HOME/.local/share/ai-handy-writer/backups/
 ```
 
-## Alte Shell-Funktion entfernen
+## Remove the Legacy Shell Function
 
-Falls `ai-writer` bisher als Funktion in `~/.zshrc` definiert war, entferne den gesamten alten Funktionsblock und lade die Shell neu:
+If `ai-writer` was previously defined as a function in `~/.zshrc`, remove that complete function block and reload the shell:
 
 ```bash
 source ~/.zshrc
 type ai-writer
 ```
 
-Die Ausgabe soll auf `$HOME/.local/bin/ai-writer` zeigen und nicht mehr auf eine Shell-Funktion.
+The result should point to `$HOME/.local/bin/ai-writer`, not a shell function.
 
-## Tests
+## Test the Installation
 
-Hilfe und Standardwerte:
+Check the defaults:
 
 ```bash
 ai-writer --help
 ```
 
-Codex als Standard:
+Test Codex as the default:
 
 ```bash
 ai-writer "hallo ich wollte fragen ob das morgen passt"
 /usr/bin/pbpaste
 ```
 
-Pi explizit:
+The German input should be returned as natural English because English is the initial language mode.
+
+Test Pi explicitly:
 
 ```bash
 ai-writer --pi "hallo ich wollte fragen ob das morgen passt"
 /usr/bin/pbpaste
 ```
 
-Harness explizit waehlen:
+Select either harness explicitly:
 
 ```bash
 ai-writer --codex
 ai-writer --pi
 ```
 
-Alias pruefen:
+Check the alias:
 
 ```bash
 ai-handy-writer --help
 ```
 
-## Standard spaeter auf Pi umstellen
+## Make Pi the Default Later
 
-Oeffne:
+Edit:
 
 ```text
 $HOME/.config/ai-handy-writer/config.zsh
 ```
 
-Setze:
+Set:
 
 ```zsh
 AI_WRITER_DEFAULT_HARNESS="pi"
 ```
 
-Danach startet `ai-writer` Pi. Codex bleibt mit `ai-writer --codex` erreichbar.
+Afterward, `ai-writer` starts Pi and `ai-writer --codex` still starts Codex.
 
-## Modell oder Reasoning aendern
+## Change Model, Reasoning, or Tier
 
-Die gemeinsamen Laufzeitwerte stehen ebenfalls in `config.zsh`:
+The shared runtime values are stored in `config.zsh`:
 
 ```zsh
 AI_WRITER_MODEL="gpt-5.6-luna"
@@ -127,15 +129,13 @@ AI_WRITER_REASONING="low"
 AI_WRITER_CODEX_SERVICE_TIER="fast"
 ```
 
-Der Launcher uebergibt diese Werte an beide Harnesses. Das installierte Codex-Profil enthaelt dieselben Werte als sichere Fallbacks.
+The launcher passes the model and reasoning values to both harnesses. The dedicated Codex profile contains the same values as fallbacks.
 
-Fuer Codex sind `fast` und `standard` gueltige Service-Tier-Werte. Reasoning
-`none` und `low` wurden mit Codex getestet. Pi wurde mit Thinking `off`,
-`minimal` und `low` getestet.
+Codex supports the tested `fast` and `standard` tier selections. Codex was tested with Reasoning `none` and `low`. Pi was tested with Thinking `off`, `minimal`, and `low`.
 
 ## Codex Fast Mode
 
-Nur der Codex-Modus verwendet Fast:
+Only the Codex harness uses Fast mode:
 
 ```toml
 service_tier = "fast"
@@ -144,17 +144,16 @@ service_tier = "fast"
 fast_mode = true
 ```
 
-Die Einstellung liegt im dedizierten Writer-Profil und beeinflusst normale Codex-Sitzungen nicht.
+The setting lives in the dedicated Writer profile and does not affect ordinary Codex sessions.
 
 ## Benchmark
 
-Die vollstaendige Messmatrix und der begruendete Standardmodus stehen in
-`BENCHMARKS.md`. Ein neuer Lauf mit drei Wiederholungen pro Modus:
+The complete timing matrix and default-mode decision are documented in [`BENCHMARKS.md`](BENCHMARKS.md).
+
+Run a new matrix with three repetitions per mode:
 
 ```bash
 ./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-benchmark.tsv
 ```
 
-Der schnellste reine Messwert stammt von Pi Luna `off`. Wegen wiederholter
-Bedeutungsfehler im Negations-Kontrolltest bleibt Codex Luna Fast `low` als
-schnellster zuverlaessiger Modus der Standard.
+Pi Luna `off` produced the fastest raw result. Because it repeatedly changed the meaning of a negation control sentence, Codex Luna Fast `low` remains the fastest reliable default.
