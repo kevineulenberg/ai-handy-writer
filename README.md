@@ -57,6 +57,35 @@ Use `--` to stop option parsing:
 ai-writer -- "--pi should remain part of this sentence"
 ```
 
+## Instant Launch App and Hotkey
+
+Install the optional local macOS launcher after the main Writer installation:
+
+```bash
+./scripts/install-macos-launcher.zsh
+```
+
+This creates:
+
+```text
+$HOME/Applications/AI Writer.app
+$HOME/Applications/AI Writer.command
+```
+
+Opening `AI Writer.app` activates the standard macOS Terminal, creates a new Terminal session, and immediately starts the configured default `ai-writer` harness. The `.command` file provides a direct double-click fallback. No DMG, Xcode project, package installer, or committed app bundle is required; the app is compiled locally from [`macos/AI Writer.applescript`](macos/AI%20Writer.applescript) with Apple's built-in `osacompile` tool.
+
+To assign a global hotkey:
+
+1. Open the macOS Shortcuts app and create a shortcut named `AI Writer`.
+2. Add the `Open App` action and select `$HOME/Applications/AI Writer.app`.
+3. Open the shortcut details, click `Add Keyboard Shortcut`, and choose a combination such as Control-Option-Command-W.
+4. Optionally choose `File > Add to Dock`, or drag `AI Writer.app` directly to the Dock.
+5. On the first launch, allow the launcher to control Terminal when macOS requests Automation permission.
+
+Apple's `shortcuts` command-line utility can run, list, view, and sign shortcuts, but it does not create a new shortcut or assign its global keyboard combination. That final user-specific hotkey step therefore remains intentionally manual.
+
+The launcher always calls `$HOME/.local/bin/ai-writer`, so changing the default harness, model, Reasoning, or Codex tier in the normal Writer configuration also changes app launches. Existing launchers are archived under `$HOME/.local/share/ai-handy-writer/backups/` when the optional installer is rerun. If an older `Desktop/AI Writer.command` exists, it is archived and replaced with the current command launcher.
+
 ## Language Mode
 
 The initial language mode is English.
@@ -137,6 +166,7 @@ See [`INSTALL.md`](INSTALL.md) for the complete installation guide. On the curre
 ```bash
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent@0.83.0
 ./scripts/install.sh
+./scripts/install-macos-launcher.zsh
 ```
 
 The installer:
@@ -149,6 +179,8 @@ The installer:
 6. Installs the deterministic Codex clipboard bridge.
 7. Preserves an existing editable runtime configuration.
 
+The separate macOS launcher installer creates the optional local app and double-click command. It is intentionally not part of the core installation so terminal-only users do not receive extra application files.
+
 ## Installed Paths
 
 ```text
@@ -159,6 +191,8 @@ $HOME/.config/ai-handy-writer/config.zsh
 $HOME/.config/ai-handy-writer/copy_codex_turn_to_clipboard.py
 $HOME/.local/bin/ai-writer
 $HOME/.local/bin/ai-handy-writer
+$HOME/Applications/AI Writer.app
+$HOME/Applications/AI Writer.command
 ```
 
 ## Codex Profile
@@ -212,7 +246,9 @@ The skill forbids file access, browsers, APIs, network access, scripts, and othe
 ruby -ryaml -e 'text=File.read("SKILL.md"); header=text.split(/^---\s*$/,3)[1]; p YAML.safe_load(header)'
 zsh -n bin/ai-writer
 zsh -n scripts/install.sh
+zsh -n scripts/install-macos-launcher.zsh
 zsh -n scripts/benchmark.zsh
+/usr/bin/osacompile -o /tmp/AI-Writer-Test.app "macos/AI Writer.applescript"
 python3 -m py_compile scripts/copy_codex_turn_to_clipboard.py
 ./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-translation.tsv translation
 ./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-correction.tsv correction

@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-07-31 - Instant macOS Launcher
+
+### Added
+
+- Optional locally compiled `AI Writer.app` that opens the standard macOS Terminal and starts the configured Writer immediately.
+- Double-clickable `AI Writer.command` fallback using the installed launcher instead of the obsolete shell function.
+- Dedicated `scripts/install-macos-launcher.zsh` installer with recoverable backups.
+- Setup documentation for a global macOS Shortcuts hotkey, Dock access, and the one-time Automation permission.
+
+### Changed
+
+- Existing legacy `Desktop/AI Writer.command` launchers are archived and updated when the optional installer runs.
+- The generated app remains local and is built from versioned AppleScript source, avoiding DMG packaging and committed app bundles.
+
 ## 2026-07-31 - Correction Benchmark
 
 ### Added

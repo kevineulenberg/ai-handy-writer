@@ -49,6 +49,37 @@ $HOME/.local/bin/ai-writer
 $HOME/.local/bin/ai-handy-writer
 ```
 
+## Optional macOS App Launcher
+
+Install the lightweight local launcher after the main installation:
+
+```bash
+chmod +x scripts/install-macos-launcher.zsh "macos/AI Writer.command"
+./scripts/install-macos-launcher.zsh
+```
+
+The optional installer creates:
+
+```text
+$HOME/Applications/AI Writer.app
+$HOME/Applications/AI Writer.command
+```
+
+The app uses the standard macOS Terminal and immediately starts `$HOME/.local/bin/ai-writer` in a login shell. The command file is a double-click fallback. Existing launcher versions are archived under `$HOME/.local/share/ai-handy-writer/backups/`. If an older `$HOME/Desktop/AI Writer.command` exists, the installer archives it and installs the current command in its place.
+
+Open `AI Writer.app` once. When macOS requests Automation permission to control Terminal, click Allow.
+
+### Global Keyboard Shortcut
+
+1. Open the Shortcuts app.
+2. Create a shortcut named `AI Writer`.
+3. Add the `Open App` action and select `$HOME/Applications/AI Writer.app`.
+4. Open the shortcut details and click `Add Keyboard Shortcut`.
+5. Choose a free combination, for example Control-Option-Command-W.
+6. Optionally use `File > Add to Dock` or drag the generated app into the Dock.
+
+The global key assignment is a one-time manual step because Apple's `shortcuts` CLI cannot create shortcuts or assign their keyboard combinations. No DMG, Xcode project, signing workflow, or package installer is needed.
+
 Active legacy directories at `~/.codex/skills/write-skill` and `~/.pi/agent/skills/write-skill` are archived with a timestamp under:
 
 ```text
