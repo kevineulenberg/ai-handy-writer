@@ -148,12 +148,13 @@ The setting lives in the dedicated Writer profile and does not affect ordinary C
 
 ## Benchmark
 
-The complete timing matrix and default-mode decision are documented in [`BENCHMARKS.md`](BENCHMARKS.md).
+The separate translation and correction timing matrices and the default-mode decision are documented in [`BENCHMARKS.md`](BENCHMARKS.md).
 
-Run a new matrix with three repetitions per mode:
+Run new matrices with three repetitions per mode:
 
 ```bash
-./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-benchmark.tsv
+./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-translation.tsv translation
+./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-correction.tsv correction
 ```
 
 Pi Luna `off` produced the fastest raw result. Because it repeatedly changed the meaning of a negation control sentence, Codex Luna Fast `low` remains the fastest reliable default.

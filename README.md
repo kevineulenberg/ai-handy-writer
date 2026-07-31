@@ -18,6 +18,8 @@ The fastest raw result came from Pi with GPT-5.6 Luna and Thinking `off`, averag
 
 The fastest reliable mode was Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode. It averaged 11.15 seconds and produced no meaning errors across six evaluated translations, so it remains the default.
 
+The separate correction benchmark uses a similarly sized English input with deliberate spelling and grammar errors. Codex GPT-5.6 Luna with Reasoning `none` and Fast mode produced the fastest correction mean at 8.86 seconds. All 24 successful Codex correction runs fixed the seeded errors; the 15 Pi attempts were excluded because an invalidated local OAuth token stopped them before model inference.
+
 ## Default Configuration
 
 | Setting | Codex | Pi |
@@ -30,7 +32,7 @@ The fastest reliable mode was Codex with GPT-5.6 Luna, Reasoning `low`, and Fast
 
 Codex Fast mode reduces latency for supported models while consuming ChatGPT credits at a higher rate. Pi does not expose an equivalent Fast-mode switch in its CLI harness.
 
-The complete timing matrix, methodology, individual results, quality checks, and the unavailable `gpt-5.5-instant` model name are documented in [`BENCHMARKS.md`](BENCHMARKS.md).
+The separate translation and correction matrices, methodology, individual results, quality checks, and the unavailable `gpt-5.5-instant` model name are documented in [`BENCHMARKS.md`](BENCHMARKS.md).
 
 ## Commands
 
@@ -212,7 +214,8 @@ zsh -n bin/ai-writer
 zsh -n scripts/install.sh
 zsh -n scripts/benchmark.zsh
 python3 -m py_compile scripts/copy_codex_turn_to_clipboard.py
-./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-benchmark.tsv
+./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-translation.tsv translation
+./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-correction.tsv correction
 ```
 
 Update the global copies after a repository change:
