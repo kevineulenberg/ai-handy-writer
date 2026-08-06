@@ -26,7 +26,9 @@ For translation, Pi with GPT-5.6 Luna and Thinking disabled produced the fastest
 
 For correction, Pi with GPT-5.6 Luna and Thinking `minimal` produced both the fastest mean at 10.39 seconds and the fastest median at 10.36 seconds.
 
-Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode remains the default. It was the fastest reliable translation mode, preserved the intended meaning in all six evaluated translations, and corrected every seeded error in the correction benchmark. Pi Luna `minimal` won the correction test, but it produced one meaning error in the six-run translation quality sample.
+Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode remains the quality-focused translation recommendation. It was the fastest reliable translation mode, preserved the intended meaning in all six evaluated translations, and corrected every seeded error in the correction benchmark. Pi Luna `minimal` won the correction test, but it produced one meaning error in the six-run translation quality sample.
+
+The installed harness default was changed to Pi with GPT-5.6 Luna and Thinking `low` on August 6, 2026, prioritizing the responsive correction workflow. This runtime preference does not change the recorded benchmark results or the translation-quality recommendation. Codex remains available through `ai-writer --codex`, and Pi can always be selected explicitly with `ai-writer --pi`.
 
 ## Translation Performance
 

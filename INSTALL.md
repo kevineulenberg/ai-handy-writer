@@ -1,6 +1,6 @@
 # Install AI Handy Writer
 
-This guide installs AI Handy Writer for Codex and Pi. Codex becomes the default harness, while Pi remains available through `--pi`.
+This guide installs AI Handy Writer for Codex and Pi. Pi becomes the default harness, while Codex remains available through `--codex`.
 
 ## Requirements
 
@@ -105,7 +105,7 @@ Check the defaults:
 ai-writer --help
 ```
 
-Test Codex as the default:
+Test Pi as the default:
 
 ```bash
 ai-writer "hallo ich wollte fragen ob das morgen passt"
@@ -114,10 +114,10 @@ ai-writer "hallo ich wollte fragen ob das morgen passt"
 
 The German input should be returned as natural English because English is the initial language mode.
 
-Test Pi explicitly:
+Test Codex explicitly:
 
 ```bash
-ai-writer --pi "hallo ich wollte fragen ob das morgen passt"
+ai-writer --codex "hallo ich wollte fragen ob das morgen passt"
 /usr/bin/pbpaste
 ```
 
@@ -134,7 +134,7 @@ Check the alias:
 ai-handy-writer --help
 ```
 
-## Make Pi the Default Later
+## Make Codex the Default Later
 
 Edit:
 
@@ -145,10 +145,10 @@ $HOME/.config/ai-handy-writer/config.zsh
 Set:
 
 ```zsh
-AI_WRITER_DEFAULT_HARNESS="pi"
+AI_WRITER_DEFAULT_HARNESS="codex"
 ```
 
-Afterward, `ai-writer` starts Pi and `ai-writer --codex` still starts Codex.
+Afterward, `ai-writer` starts Codex and `ai-writer --pi` still starts Pi.
 
 ## Change Model, Reasoning, or Tier
 
@@ -188,4 +188,4 @@ Run new matrices with three repetitions per mode:
 ./scripts/benchmark.zsh 3 /tmp/ai-handy-writer-correction.tsv correction
 ```
 
-Pi Luna `off` produced the fastest raw translation result, while Pi Luna `minimal` won the correction benchmark. Because both Pi modes produced at least one meaning error in the translation quality sample, Codex Luna Fast `low` remains the fastest reliable default.
+Pi Luna `off` produced the fastest raw translation result, while Pi Luna `minimal` won the correction benchmark. Codex Luna Fast `low` remains the quality-focused translation recommendation, while the installed Pi Luna `low` default prioritizes the responsive correction workflow. Both harness switches remain available.

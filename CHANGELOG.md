@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-08-06 - Pi Default Harness
+
+### Changed
+
+- Changed the repository and installed runtime default from Codex to Pi.
+- Kept GPT-5.6 Luna with Thinking `low` as the shared default model configuration.
+- Preserved `--codex` and `--pi` as explicit one-session harness overrides.
+- Updated the benchmark interpretation to distinguish the latency-oriented runtime preference from the quality-focused Codex translation recommendation.
+- Updated the README and installation guide for the new default and the reverse switch back to Codex.
+
 ## 2026-07-31 - Instant macOS Launcher
 
 ### Added

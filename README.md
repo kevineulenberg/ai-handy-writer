@@ -6,7 +6,7 @@
 
 AI Handy Writer is a focused terminal-native writing workflow for macOS. It corrects, polishes, and translates pasted text, copies the finished version to the clipboard with `/usr/bin/pbcopy`, and prints exactly the same text in the terminal.
 
-The global command starts the Codex harness by default. Pi remains available as a fully supported alternative harness.
+The global command starts the Pi harness by default. Codex remains available as a fully supported alternative through `--codex`.
 
 ## Benchmark Winner
 
@@ -16,9 +16,11 @@ The global command starts the Codex harness by default. Pi remains available as 
 
 The fastest raw result came from Pi with GPT-5.6 Luna and Thinking `off`, averaging 10.00 seconds. That mode produced two meaning errors in the separate negation control test.
 
-The fastest reliable mode was Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode. It averaged 11.15 seconds and produced no meaning errors across six evaluated translations, so it remains the default.
+The fastest reliable translation mode was Codex with GPT-5.6 Luna, Reasoning `low`, and Fast mode. It averaged 11.15 seconds and produced no meaning errors across six evaluated translations, so it remains the quality-focused recommendation for sensitive translation work.
 
 The separate correction benchmark uses a similarly sized English input with deliberate spelling and grammar errors. Pi GPT-5.6 Luna with Thinking `minimal` produced the fastest correction mean at 10.39 seconds and the fastest median at 10.36 seconds. All 39 correction runs completed successfully and fixed the seeded errors.
+
+The installed default is Pi with GPT-5.6 Luna and Thinking `low`, prioritizing the responsive correction workflow. Use `ai-writer --codex` whenever the Codex harness or the strongest measured translation reliability is preferred.
 
 ## Default Configuration
 
@@ -27,8 +29,8 @@ The separate correction benchmark uses a similarly sized English input with deli
 | Model | `gpt-5.6-luna` | `gpt-5.6-luna` |
 | Reasoning | `low` | `low` |
 | Service tier | Fast | Standard |
-| Default harness | Yes | No |
-| Start command | `ai-writer` | `ai-writer --pi` |
+| Default harness | No | Yes |
+| Start command | `ai-writer --codex` | `ai-writer` |
 
 Codex Fast mode reduces latency for supported models while consuming ChatGPT credits at a higher rate. Pi does not expose an equivalent Fast-mode switch in its CLI harness.
 
@@ -103,16 +105,16 @@ The persistent default is stored in:
 $HOME/.config/ai-handy-writer/config.zsh
 ```
 
-Use Codex by default:
-
-```zsh
-AI_WRITER_DEFAULT_HARNESS="codex"
-```
-
-Use Pi by default:
+Use Pi by default, which is the installed setting:
 
 ```zsh
 AI_WRITER_DEFAULT_HARNESS="pi"
+```
+
+Use Codex by default instead:
+
+```zsh
+AI_WRITER_DEFAULT_HARNESS="codex"
 ```
 
 Regardless of the configured default, `--codex` and `--pi` always select a harness for one session.
@@ -122,7 +124,7 @@ Regardless of the configured default, `--codex` and `--pi` always select a harne
 The installed configuration contains:
 
 ```zsh
-AI_WRITER_DEFAULT_HARNESS="codex"
+AI_WRITER_DEFAULT_HARNESS="pi"
 AI_WRITER_MODEL="gpt-5.6-luna"
 AI_WRITER_REASONING="low"
 AI_WRITER_CODEX_PROFILE="ai-handy-writer"
