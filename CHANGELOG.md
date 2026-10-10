@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-10 - Claude Writer and Pro Editing
+
+### Added
+
+- `ai-writer-c` and `--claude` for Pi with Claude Haiku 5.5 and medium thinking.
+- `--pro` for GPT-6 Luna or the Claude variant with high thinking and stronger editing.
+- Pro rules for precise wording, readability, removal of repetition and filler, preservation of meaning, and no sentence dashes.
+- A bundled adaptive-thinking Haiku model definition with a non-destructive Pi configuration merger.
+- A Quick Guide and isolated launcher and installer regression tests.
+
+### Changed
+
+- Fresh-install defaults now use GPT-6 Luna with medium thinking.
+- Installer deploys both launchers and the Quick Guide, preserving existing runtime settings and Pi model definitions.
+- Codex skill activation remains explicit-only; launcher sessions activate editing through trusted instructions.
+- README and installation instructions distinguish current defaults from historical benchmark results.
+
 ## 2026-08-06 - Pi Default Harness
 
 ### Changed

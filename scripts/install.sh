@@ -19,12 +19,15 @@ if [[ "$(uname -s)" != "Darwin" || ! -x /usr/bin/pbcopy ]]; then
   exit 1
 fi
 
-for required_command in codex pi; do
+for required_command in codex pi python3; do
   if ! command -v "$required_command" >/dev/null 2>&1; then
     print -u2 -r -- "Required command not found: $required_command"
     exit 1
   fi
 done
+
+python3 "$repo_root/scripts/install_pi_model.py" \
+  "$repo_root/config/pi-models.json" "$HOME/.pi/agent/models.json"
 
 archive_legacy_dir() {
   local source_dir="$1"
@@ -42,15 +45,18 @@ archive_legacy_dir() {
 archive_legacy_dir "$HOME/.codex/skills/write-skill" "codex-write-skill"
 archive_legacy_dir "$HOME/.pi/agent/skills/write-skill" "pi-write-skill"
 
-mkdir -p "$codex_skill_dir" "$pi_skill_dir" "$config_dir" "$launcher_dir"
+mkdir -p "$codex_skill_dir/agents" "$pi_skill_dir" "$config_dir" "$launcher_dir"
 
 cp "$repo_root/SKILL.md" "$codex_skill_dir/SKILL.md"
+cp "$repo_root/agents/openai.yaml" "$codex_skill_dir/agents/openai.yaml"
 cp "$repo_root/SKILL.md" "$pi_skill_dir/SKILL.md"
 cp "$repo_root/README.md" "$pi_skill_dir/README.md"
 cp "$repo_root/INSTALL.md" "$pi_skill_dir/INSTALL.md"
+cp "$repo_root/QUICK_GUIDE.md" "$pi_skill_dir/QUICK_GUIDE.md"
 
 cp "$repo_root/bin/ai-writer" "$launcher_dir/ai-writer"
-chmod 0755 "$launcher_dir/ai-writer"
+cp "$repo_root/bin/ai-writer-c" "$launcher_dir/ai-writer-c"
+chmod 0755 "$launcher_dir/ai-writer" "$launcher_dir/ai-writer-c"
 ln -sfn "ai-writer" "$launcher_dir/ai-handy-writer"
 cp "$repo_root/scripts/copy_codex_turn_to_clipboard.py" "$codex_notify"
 chmod 0755 "$codex_notify"
@@ -62,10 +68,16 @@ else
   print -r -- "Kept existing editable defaults at $config_dir/config.zsh"
 fi
 
-if ! grep -q '^AI_WRITER_CODEX_SERVICE_TIER=' "$config_dir/config.zsh"; then
-  print -r -- 'AI_WRITER_CODEX_SERVICE_TIER="fast"' >> "$config_dir/config.zsh"
-  print -r -- "Added Codex service-tier default to $config_dir/config.zsh"
-fi
+for default_setting in \
+  'AI_WRITER_CODEX_SERVICE_TIER="fast"' \
+  'AI_WRITER_C_MODEL="claude-haiku-5-5"' \
+  'AI_WRITER_C_REASONING="medium"'; do
+  setting_name="${default_setting%%=*}"
+  if ! grep -Eq "^[[:space:]]*(export[[:space:]]+)?${setting_name}=" "$config_dir/config.zsh"; then
+    printf '\n%s\n' "$default_setting" >> "$config_dir/config.zsh"
+    print -r -- "Added $setting_name default to $config_dir/config.zsh"
+  fi
+done
 
 skill_file="$codex_skill_dir/SKILL.md"
 escaped_skill_file="${skill_file//\\/\\\\}"
@@ -82,5 +94,7 @@ print -r -- "Installed Codex skill: $codex_skill_dir"
 print -r -- "Installed Pi skill: $pi_skill_dir"
 print -r -- "Installed Codex profile: $codex_profile"
 print -r -- "Installed launcher: $launcher_dir/ai-writer"
+print -r -- "Installed Claude launcher: $launcher_dir/ai-writer-c"
+print -r -- "Quick guide: $pi_skill_dir/QUICK_GUIDE.md"
 print -r -- "Run 'ai-writer --help' after removing any older ai-writer shell function."
 print -r -- "Optional macOS app launcher: ./scripts/install-macos-launcher.zsh"

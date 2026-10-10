@@ -1,0 +1,7 @@
+interface:
+  display_name: "AI Handy Writer"
+  short_description: "Textkorrektur und Übersetzung auf Abruf"
+  default_prompt: "Use $ai-handy-writer to polish or translate the text I provide."
+
+policy:
+  allow_implicit_invocation: false

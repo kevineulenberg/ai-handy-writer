@@ -1,0 +1,3 @@
+#!/bin/zsh
+
+exec "$HOME/.local/bin/ai-writer" --claude "$@"
